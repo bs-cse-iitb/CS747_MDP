@@ -1,0 +1,22 @@
+python planner.py --mdp data/mdp/continuing-mdp-2-2.txt --algorithm vi
+python planner.py --mdp data/mdp/continuing-mdp-2-2.txt --policy pol.txt
+python planner.py --mdp data/mdp/continuing-mdp-2-2.txt --algorithm vi --policy policy.txt
+
+python planner.py --mdp data/mdp/continuing-mdp-10-5.txt --algorithm vi
+python planner.py --mdp data/mdp/continuing-mdp-10-5.txt --algorithm hpi
+python planner.py --mdp data/mdp/continuing-mdp-10-5.txt --algorithm lp
+python planner.py --mdp data/mdp/continuing-mdp-10-5.txt
+python planner.py --mdp data/mdp/continuing-mdp-10-5.txt --policy policy.txt
+
+python autograder.py --task 1 --algorithm vi
+python autograder.py --task 1 --algorithm all
+
+python encoder.py --states cricket_state_list.txt --parameters data/cricket/sample-p1.txt --q 0.25 > mdpfile
+python planner.py --mdp mdpfile > value_and_policy_file
+python decoder.py --value-policy value_and_policy_file --states cricket_state_list.txt > policyfile
+
+
+python encoder.py --states state.txt --parameters data/cricket/sample-p1.txt --q 0.25 > mdpfile
+
+
+python decoder.py --value-policy value_and_policy_file --states statesfilepath > policyfile

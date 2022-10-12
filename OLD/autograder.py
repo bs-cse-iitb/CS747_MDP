@@ -12,7 +12,7 @@ class VerifyOutputPlanner:
     def __init__(self,algorithm,print_error):
         algorithm_ls = list()
         if algorithm=='all':
-            algorithm_ls+=['hpi','vi','lp', 'default']
+            algorithm_ls+=['hpi','vi','lp', 'dual_lp', 'default']
         else:
             algorithm_ls.append(algorithm)
             
@@ -118,7 +118,7 @@ def verifyOutput(states, output, in_file, q):
         lines = file.readlines()
     states = [line.strip() for line in lines]
     if len(output) != len(states):
-        print("\n","*"*10,f"Mistake: Expected {len(states)} policy lines, got {len(output)}")
+        print("\n","*"*10,f"Mistake: Expected {len(states)} policy lines, got {len(output)-1}")
         sys.exit()
     
     policy_states=[]
@@ -155,16 +155,14 @@ def verifyOutput(states, output, in_file, q):
             base_A = int(base[i][1])
             if(base_A != est_A):
                 print(terms[0], end=' ')
-                print("Action does not match, but it may be correct if the same value function is obtained for another action")
+                print("Wrong action")
             
-            if abs(est_V-base_V) > (10**-4):
+            elif abs(est_V-base_V) > (10**-4):
                 print(terms[0], end=' ')
                 print("%10.6f"%est_V,"%10.6f"%base_V,"%10.6f"%abs(est_V-base_V),end="\t")
-                print("\t Value function not OK")
-                return
+                print("\tNot OK")
     else:
         print("Not verified policy and win probabilities. Use default --q to verify.")
-        return
 
     
     print("All OK")
